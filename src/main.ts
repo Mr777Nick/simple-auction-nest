@@ -22,7 +22,10 @@ async function bootstrap() {
     .setExternalDoc('Postman Collection', `docs-json`)
     .build();
   const v1Document = SwaggerModule.createDocument(app, v1Config);
-  fs.writeFileSync(`./docs/swagger.json`, JSON.stringify(v1Document));
+  fs.writeFileSync(
+    `./postman/schemas/swagger.json`,
+    JSON.stringify(v1Document),
+  );
   SwaggerModule.setup(`v${V1_PREFIX}/docs`, app, v1Document);
 
   app.enableVersioning({
