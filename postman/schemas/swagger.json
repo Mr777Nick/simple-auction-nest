@@ -1,0 +1,100 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "summary": "",
+        "description": "Get Hello World message, commonly used for checking if the server is running",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": { "text/html": { "schema": { "type": "string" } } },
+            "description": ""
+          }
+        },
+        "security": [{ "basic": [] }]
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "operationId": "AuthController_signIn",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SignInDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "type": "string" } }
+            }
+          }
+        },
+        "tags": ["auth"]
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "operationId": "AuthController_signUp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SignUpDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "type": "string" } }
+            }
+          }
+        },
+        "tags": ["auth"]
+      }
+    }
+  },
+  "info": {
+    "title": "Simple Auction API",
+    "description": "The backend API for the Simple Auction app",
+    "version": "V1",
+    "contact": {
+      "name": "Bagas Naufal Insani",
+      "url": "https://github.com/Mr777Nick",
+      "email": "bagas_naufal96@yahoo.co.id"
+    }
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "SignInDto": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "password": { "type": "string" }
+        },
+        "required": ["email", "password"]
+      },
+      "SignUpDto": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "name": { "type": "string" },
+          "password": { "type": "string" }
+        },
+        "required": ["email", "name", "password"]
+      }
+    }
+  },
+  "externalDocs": { "description": "Postman Collection", "url": "docs-json" }
+}
