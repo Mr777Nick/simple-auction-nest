@@ -10,6 +10,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const V1_PREFIX = '1';
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: V1_PREFIX,
+  });
+
   const v1Config = new DocumentBuilder()
     .setTitle('Simple Auction API')
     .setDescription('The backend API for the Simple Auction app')
@@ -27,11 +33,6 @@ async function bootstrap() {
     JSON.stringify(v1Document),
   );
   SwaggerModule.setup(`v${V1_PREFIX}/docs`, app, v1Document);
-
-  app.enableVersioning({
-    type: VersioningType.URI,
-    defaultVersion: V1_PREFIX,
-  });
 
   await app.listen(3000);
 }

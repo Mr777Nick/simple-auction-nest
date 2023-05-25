@@ -16,7 +16,7 @@
         "security": [{ "basic": [] }]
       }
     },
-    "/auth/signin": {
+    "/v1/auth/signin": {
       "post": {
         "operationId": "AuthController_signIn",
         "parameters": [],
@@ -39,7 +39,7 @@
         "tags": ["auth"]
       }
     },
-    "/auth/signup": {
+    "/v1/auth/signup": {
       "post": {
         "operationId": "AuthController_signUp",
         "parameters": [],
