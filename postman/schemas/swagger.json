@@ -9,11 +9,21 @@
         "parameters": [],
         "responses": {
           "200": {
-            "content": { "text/html": { "schema": { "type": "string" } } },
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "description": ""
           }
         },
-        "security": [{ "basic": [] }]
+        "security": [
+          {
+            "basic": []
+          }
+        ]
       }
     },
     "/v1/auth/signin": {
@@ -24,7 +34,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/SignInDto" }
+              "schema": {
+                "$ref": "#/components/schemas/SignInDto"
+              }
             }
           }
         },
@@ -32,11 +44,17 @@
           "201": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "type": "string" } }
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
             }
           }
         },
-        "tags": ["auth"]
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/v1/auth/signup": {
@@ -47,7 +65,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/SignUpDto" }
+              "schema": {
+                "$ref": "#/components/schemas/SignUpDto"
+              }
             }
           }
         },
@@ -55,11 +75,17 @@
           "201": {
             "description": "",
             "content": {
-              "application/json": { "schema": { "type": "string" } }
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
             }
           }
         },
-        "tags": ["auth"]
+        "tags": [
+          "auth"
+        ]
       }
     }
   },
@@ -80,21 +106,41 @@
       "SignInDto": {
         "type": "object",
         "properties": {
-          "email": { "type": "string" },
-          "password": { "type": "string" }
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
         },
-        "required": ["email", "password"]
+        "required": [
+          "email",
+          "password"
+        ]
       },
       "SignUpDto": {
         "type": "object",
         "properties": {
-          "email": { "type": "string" },
-          "name": { "type": "string" },
-          "password": { "type": "string" }
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
         },
-        "required": ["email", "name", "password"]
+        "required": [
+          "email",
+          "name",
+          "password"
+        ]
       }
     }
   },
-  "externalDocs": { "description": "Postman Collection", "url": "docs-json" }
+  "externalDocs": {
+    "description": "Postman Collection",
+    "url": "docs-json"
+  }
 }

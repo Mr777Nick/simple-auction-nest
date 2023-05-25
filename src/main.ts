@@ -30,7 +30,7 @@ async function bootstrap() {
   const v1Document = SwaggerModule.createDocument(app, v1Config);
   fs.writeFileSync(
     `./postman/schemas/swagger.json`,
-    JSON.stringify(v1Document),
+    JSON.stringify(v1Document, null, 2),
   );
   SwaggerModule.setup(`v${V1_PREFIX}/docs`, app, v1Document);
 
