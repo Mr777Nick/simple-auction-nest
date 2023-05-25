@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+
 import { VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -17,10 +19,10 @@ async function bootstrap() {
       'bagas_naufal96@yahoo.co.id',
     )
     .setVersion(`V${V1_PREFIX}`)
+    .setExternalDoc('Postman Collection', `docs-json`)
     .build();
-  const v1Document = SwaggerModule.createDocument(app, v1Config, {
-    ignoreGlobalPrefix: false,
-  });
+  const v1Document = SwaggerModule.createDocument(app, v1Config);
+  fs.writeFileSync(`./docs/swagger.json`, JSON.stringify(v1Document));
   SwaggerModule.setup(`v${V1_PREFIX}/docs`, app, v1Document);
 
   app.enableVersioning({
