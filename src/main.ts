@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-import { VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -11,10 +11,12 @@ async function bootstrap() {
 
   const V1_PREFIX = '1';
 
-  app.enableVersioning({
-    type: VersioningType.URI,
-    defaultVersion: V1_PREFIX,
-  });
+  app
+    .enableVersioning({
+      type: VersioningType.URI,
+      defaultVersion: V1_PREFIX,
+    })
+    .useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const v1Config = new DocumentBuilder()
     .setTitle('Simple Auction API')
