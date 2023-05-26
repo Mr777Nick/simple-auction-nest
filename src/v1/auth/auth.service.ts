@@ -18,6 +18,8 @@ export class AuthService {
   async signIn(signInDto: SignInDto) {
     const user = await this.usersService.findOne(signInDto.email);
     if (user && user.password === signInDto.password) {
+      // Stripping down the user object to avoid sending sensitive information
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       return result;
     }

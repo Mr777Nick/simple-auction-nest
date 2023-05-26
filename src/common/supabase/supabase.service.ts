@@ -56,4 +56,16 @@ export class SupabaseService {
       throw error;
     }
   }
+
+  async getUser(jwt: string) {
+    try {
+      const { data, error } = await this.supabase.auth.getUser(jwt);
+
+      if (error) throw error;
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

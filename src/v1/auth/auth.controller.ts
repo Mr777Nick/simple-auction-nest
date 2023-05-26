@@ -13,7 +13,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
-import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { SupabaseAuthGuard } from './guard/supabase-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -48,7 +48,7 @@ export class AuthController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(SupabaseAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
