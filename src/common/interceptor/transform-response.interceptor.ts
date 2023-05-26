@@ -20,16 +20,25 @@ export class ResponseTransformationInterceptor<T>
   ): Observable<Response<T>> {
     return next.handle().pipe(
       map((data) => {
-        const { message, ...rest } = data;
+        if (data) {
+          const { message, ...rest } = data;
+
+          return {
+            statusCode: context.switchToHttp().getResponse().statusCode,
+            message: message || null,
+            data:
+              typeof data === 'string'
+                ? data
+                : Object.keys(rest).length === 0
+                ? null
+                : rest,
+          };
+        }
+
         return {
           statusCode: context.switchToHttp().getResponse().statusCode,
-          message: message || null,
-          data:
-            typeof data === 'string'
-              ? data
-              : Object.keys(rest).length === 0
-              ? null
-              : rest,
+          message: null,
+          data: null,
         };
       }),
     );
