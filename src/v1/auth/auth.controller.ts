@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -26,8 +27,14 @@ export class AuthController {
   }
 
   @Post('signup')
-  signUp(@Body() signUpDto: SignUpDto) {
-    return this.authService.signIn(signUpDto);
+  async signUp(@Body() signUpDto: SignUpDto) {
+    try {
+      await this.authService.signUpToSupabase(signUpDto);
+
+      return { message: 'User created' };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   @UseGuards(JwtAuthGuard)

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
+import { SupabaseService } from '../../common/supabase/supabase.service';
 import { UsersService } from '../users/users.service';
 
 import { SignInDto } from './dto/sign-in.dto';
@@ -11,6 +12,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private supabaseService: SupabaseService,
   ) {}
 
   async signIn(signInDto: SignInDto) {
@@ -29,7 +31,16 @@ export class AuthService {
     };
   }
 
-  signUp(signUpDto: SignUpDto) {
-    return 'This action should sign up user.';
+  async signUpToSupabase(signUpDto: SignUpDto) {
+    try {
+      const user = await this.supabaseService.signUp(
+        signUpDto.email,
+        signUpDto.password,
+      );
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
   }
 }
