@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { createClient } from '@supabase/supabase-js';
 
 import { ISignUp } from './interface/sign-up.interface';
 
 @Injectable()
 export class SupabaseService {
+  constructor(private configService: ConfigService) {}
+
   private readonly supabase = createClient(
-    'https://utrhucinkqvzqwdxilxf.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV0cmh1Y2lua3F2enF3ZHhpbHhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODUwNDY0MDIsImV4cCI6MjAwMDYyMjQwMn0.Cny_GUowrahL9lSjf0_CL3BVt3Vr-p3_grJCz1GFhLM',
+    this.configService.get<string>('SUPABASE_URL'),
+    this.configService.get<string>('SUPABASE_KEY'),
   );
 
   async signUp(signUp: ISignUp) {
