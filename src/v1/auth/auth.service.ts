@@ -33,10 +33,8 @@ export class AuthService {
 
   async signUpToSupabase(signUpDto: SignUpDto) {
     try {
-      const user = await this.supabaseService.signUp(
-        signUpDto.email,
-        signUpDto.password,
-      );
+      const { email, password, name } = signUpDto;
+      const user = await this.supabaseService.signUp({ email, password, name });
 
       return user;
     } catch (error) {
