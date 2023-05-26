@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient } from '@supabase/supabase-js';
 
+import { ISignIn } from './interface/sign-in.interface';
 import { ISignUp } from './interface/sign-up.interface';
 
 @Injectable()
@@ -12,6 +13,23 @@ export class SupabaseService {
     this.configService.get<string>('SUPABASE_URL'),
     this.configService.get<string>('SUPABASE_KEY'),
   );
+
+  async signIn(signIn: ISignIn) {
+    try {
+      const { email, password } = signIn;
+
+      const { data, error } = await this.supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async signUp(signUp: ISignUp) {
     try {

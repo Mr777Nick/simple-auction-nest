@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Post,
   Request,
   UseGuards,
@@ -13,17 +14,27 @@ import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
-import { LocalAuthGuard } from './guard/local-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('signin')
-  signIn(@Body() signInDto: SignInDto) {
-    return this.authService.signIn2(signInDto);
+  @HttpCode(200)
+  async signIn(@Body() signInDto: SignInDto) {
+    try {
+      const data = await this.authService.signInToSupabase(signInDto);
+
+      // Stripping down the user object to avoid sending sensitive information
+      const { session } = data;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { user, ...rest } = session;
+
+      return { message: 'User logged in', ...rest };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   @Post('signup')

@@ -31,6 +31,17 @@ export class AuthService {
     };
   }
 
+  async signInToSupabase(signInDto: SignInDto) {
+    try {
+      const { email, password } = signInDto;
+      const data = await this.supabaseService.signIn({ email, password });
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async signUpToSupabase(signUpDto: SignUpDto) {
     try {
       const { email, password, name } = signUpDto;
