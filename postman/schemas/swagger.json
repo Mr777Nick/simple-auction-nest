@@ -92,6 +92,35 @@
           }
         ]
       }
+    },
+    "/v1/users/topup": {
+      "post": {
+        "operationId": "UsersController_topUpBalance",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TopUpBalanceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
     }
   },
   "info": {
@@ -152,6 +181,17 @@
           "email",
           "name",
           "password"
+        ]
+      },
+      "TopUpBalanceDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "amount"
         ]
       }
     }
