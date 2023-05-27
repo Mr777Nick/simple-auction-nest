@@ -1,37 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 
 import { SupabaseService } from '../../common/supabase/supabase.service';
-import { UsersService } from '../users/users.service';
 
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-    private supabaseService: SupabaseService,
-  ) {}
-
-  async signIn(signInDto: SignInDto) {
-    const user = await this.usersService.findOne(signInDto.email);
-    if (user && user.password === signInDto.password) {
-      // Stripping down the user object to avoid sending sensitive information
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
-  }
-
-  async signIn2(user: any) {
-    const payload = { email: user.email, sub: user.userId };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
-  }
+  constructor(private supabaseService: SupabaseService) {}
 
   async signInToSupabase(signInDto: SignInDto) {
     try {

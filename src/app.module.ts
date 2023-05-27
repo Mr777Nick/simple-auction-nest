@@ -7,12 +7,10 @@ import { AppService } from './app.service';
 import { ResponseTransformationInterceptor } from './common/interceptor/transform-response.interceptor';
 import { SupabaseModule } from './common/supabase/supabase.module';
 import { AuthModule } from './v1/auth/auth.module';
-import { UsersModule } from './v1/users/users.module';
 
 @Module({
   imports: [
     AuthModule,
-    UsersModule,
     SupabaseModule,
     ConfigModule.forRoot({
       envFilePath: ['.env.development.local', '.env.development'],
