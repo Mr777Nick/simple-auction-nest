@@ -3,6 +3,7 @@ import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { SupabaseService } from '../../common/supabase/supabase.service';
+import { UsersService } from '../users/users.service';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -28,6 +29,16 @@ describe('AuthController', () => {
             },
           ],
           exports: [SupabaseService],
+        },
+        {
+          module: class FakeUsersModule {},
+          providers: [
+            {
+              provide: UsersService,
+              useValue: {},
+            },
+          ],
+          exports: [UsersService],
         },
       ],
       controllers: [AuthController],
