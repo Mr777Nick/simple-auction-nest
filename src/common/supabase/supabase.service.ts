@@ -68,4 +68,16 @@ export class SupabaseService {
       throw error;
     }
   }
+
+  async deleteUser(id: string) {
+    try {
+      const { data, error } = await this.supabase.auth.admin.deleteUser(id);
+
+      if (error) throw error;
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

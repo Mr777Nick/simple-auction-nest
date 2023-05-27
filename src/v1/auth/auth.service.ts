@@ -29,7 +29,14 @@ export class AuthService {
       const { email, password, name } = signUpDto;
       const user = await this.supabaseService.signUp({ email, password, name });
 
-      if (user) await this.usersService.createOne({ id: user.id, name });
+      if (user) {
+        try {
+          await this.usersService.createOne({ id: user.id, name });
+        } catch (error) {
+          await this.supabaseService.deleteUser(user.id);
+          throw error;
+        }
+      }
 
       return user;
     } catch (error) {
