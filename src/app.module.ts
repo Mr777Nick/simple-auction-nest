@@ -9,6 +9,7 @@ import { PostgresTypeOrmConfigService } from './common/database/postgres-typeorm
 import { ResponseTransformationInterceptor } from './common/interceptor/transform-response.interceptor';
 import { SupabaseModule } from './common/supabase/supabase.module';
 import { AuthModule } from './v1/auth/auth.module';
+import { UsersModule } from './v1/users/users.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthModule } from './v1/auth/auth.module';
       inject: [ConfigService],
       useClass: PostgresTypeOrmConfigService,
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [
