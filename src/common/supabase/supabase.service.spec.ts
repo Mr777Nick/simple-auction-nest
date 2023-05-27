@@ -7,7 +7,16 @@ describe('SupabaseService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SupabaseService],
+      providers: [
+        {
+          provide: SupabaseService,
+          useValue: {
+            signIn: jest.fn(),
+            signUp: jest.fn(),
+            getProfile: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<SupabaseService>(SupabaseService);
