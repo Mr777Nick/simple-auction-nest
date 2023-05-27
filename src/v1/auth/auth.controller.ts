@@ -2,18 +2,14 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Get,
   HttpCode,
   Post,
-  Request,
-  UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
-import { SupabaseAuthGuard } from './guard/supabase-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -46,12 +42,5 @@ export class AuthController {
     } catch (error) {
       throw new BadRequestException(error.message);
     }
-  }
-
-  @ApiBearerAuth()
-  @UseGuards(SupabaseAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
   }
 }

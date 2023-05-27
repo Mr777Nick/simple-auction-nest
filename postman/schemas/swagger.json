@@ -74,24 +74,17 @@
         ]
       }
     },
-    "/v1/auth/profile": {
+    "/v1/users/profile": {
       "get": {
-        "operationId": "AuthController_getProfile",
+        "operationId": "UsersController_getProfile",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": [
-          "auth"
+          "users"
         ],
         "security": [
           {

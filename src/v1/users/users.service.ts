@@ -27,4 +27,13 @@ export class UsersService {
       throw error;
     }
   }
+
+  async findOne(id: string) {
+    try {
+      const user = await this.usersRepository.findOneBy({ id });
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
