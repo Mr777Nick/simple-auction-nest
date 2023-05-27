@@ -7,6 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { DatabaseValue } from '../constant/database-value.constant';
+
 @Entity()
 export class Base {
   @PrimaryGeneratedColumn('uuid')
@@ -15,7 +17,7 @@ export class Base {
   @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, default: DatabaseValue.SYSTEM })
   createdBy: string;
 
   @UpdateDateColumn()

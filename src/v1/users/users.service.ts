@@ -22,10 +22,7 @@ export class UsersService {
 
   async createOne(createUser: ICreateUser) {
     try {
-      const user = this.usersRepository.create({
-        ...createUser,
-        createdBy: DatabaseValue.SYSTEM,
-      });
+      const user = this.usersRepository.create(createUser);
 
       await this.usersRepository.save(user);
       return user;

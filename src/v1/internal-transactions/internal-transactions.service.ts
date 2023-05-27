@@ -19,7 +19,6 @@ export class InternalTransactionsService {
       const { userId, type, amount, status } = createInternalTransaction;
 
       const internalTransaction = this.internalTransactionsRepository.create({
-        createdBy: DatabaseValue.SYSTEM,
         user: { id: userId },
         type,
         amount,
