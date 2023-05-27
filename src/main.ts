@@ -28,6 +28,7 @@ async function bootstrap() {
     )
     .setVersion(`V${V1_PREFIX}`)
     .setExternalDoc('Postman Collection', `docs-json`)
+    .addBearerAuth()
     .build();
   const v1Document = SwaggerModule.createDocument(app, v1Config);
   fs.writeFileSync(

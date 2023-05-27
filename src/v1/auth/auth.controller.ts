@@ -8,7 +8,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
@@ -48,6 +48,7 @@ export class AuthController {
     }
   }
 
+  @ApiBearerAuth()
   @UseGuards(SupabaseAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
