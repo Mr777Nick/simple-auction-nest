@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -14,21 +15,27 @@ export class Base {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Exclude()
   @CreateDateColumn()
   createdAt: Date;
 
+  @Exclude()
   @Column({ nullable: false, default: DatabaseValue.SYSTEM })
   createdBy: string;
 
+  @Exclude()
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Exclude()
   @Column({ nullable: true })
   updatedBy: string;
 
+  @Exclude()
   @DeleteDateColumn()
   deletedAt: Date;
 
+  @Exclude()
   @Column({ nullable: true })
   deletedBy: string;
 }

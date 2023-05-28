@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import {
   InternalTransactionStatus,
   InternalTransactionType,
-} from '../internal-transactions/enums/internal-transactions.enum';
+} from '../internal-transactions/enums/internal-transaction.enum';
 import { InternalTransactionsService } from '../internal-transactions/internal-transactions.service';
 
 import { User } from './entities/user.entity';
