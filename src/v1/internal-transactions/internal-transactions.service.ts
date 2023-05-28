@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { DatabaseValue } from '../../common/constant/database-value.constant';
-
 import { InternalTransaction } from './entity/internal-transactions.entity';
 import { ICreateInternalTransaction } from './interface/create-internal-transaction.interface';
 
