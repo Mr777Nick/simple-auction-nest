@@ -5,6 +5,8 @@ import {
   IsPositive,
 } from 'class-validator';
 
+import { MinDate } from '../../../common/decorators/min-date.decorator';
+
 export class CreateItemDto {
   @IsNotEmpty()
   name: string;
@@ -16,5 +18,6 @@ export class CreateItemDto {
 
   @IsNotEmpty()
   @IsDateString()
+  @MinDate(new Date())
   endedAt: Date;
 }
