@@ -11,7 +11,7 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthUser } from '@supabase/supabase-js';
 
-import { SupabaseAuthGuard } from '../auth/guard/supabase-auth.guard';
+import { SupabaseAuthGuard } from '../auth/guards/supabase-auth.guard';
 
 import { TopUpBalanceDto } from './dto/top-up-balance.dto';
 import { UsersService } from './users.service';

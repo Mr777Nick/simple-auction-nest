@@ -5,11 +5,11 @@ import { Repository } from 'typeorm';
 import {
   InternalTransactionStatus,
   InternalTransactionType,
-} from '../internal-transactions/enum/internal-transactions.enum';
+} from '../internal-transactions/enums/internal-transactions.enum';
 import { InternalTransactionsService } from '../internal-transactions/internal-transactions.service';
 
-import { User } from './entity/user.entity';
-import { ICreateUser } from './interface/create-user.interface';
+import { User } from './entities/user.entity';
+import { ICreateUser } from './interfaces/create-user.interface';
 
 @Injectable()
 export class UsersService {

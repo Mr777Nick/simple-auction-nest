@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt } from 'passport-jwt';
 
-import { SupabaseAuthStrategy } from '../../../common/strategy/supabase-auth.strategy';
+import { SupabaseAuthStrategy } from '../../../common/strategies/supabase-auth.strategy';
 
 @Injectable()
 export class SupabaseStrategy extends PassportStrategy(

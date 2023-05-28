@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { MockType, repositoryMockFactory } from '../../../test/test-util';
 import { InternalTransactionsService } from '../internal-transactions/internal-transactions.service';
 
-import { User } from './entity/user.entity';
+import { User } from './entities/user.entity';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 

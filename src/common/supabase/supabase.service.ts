@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient } from '@supabase/supabase-js';
 
-import { ISignIn } from './interface/sign-in.interface';
-import { ISignUp } from './interface/sign-up.interface';
+import { ISignIn } from './interfaces/sign-in.interface';
+import { ISignUp } from './interfaces/sign-up.interface';
 
 @Injectable()
 export class SupabaseService {

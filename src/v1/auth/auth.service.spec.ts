@@ -5,7 +5,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { MockType, repositoryMockFactory } from '../../../test/test-util';
 import { SupabaseService } from '../../common/supabase/supabase.service';
-import { User } from '../users/entity/user.entity';
+import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 
 import { AuthController } from './auth.controller';

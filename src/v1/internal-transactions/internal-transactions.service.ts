@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { InternalTransaction } from './entity/internal-transactions.entity';
-import { ICreateInternalTransaction } from './interface/create-internal-transaction.interface';
+import { InternalTransaction } from './entities/internal-transactions.entity';
+import { ICreateInternalTransaction } from './interfaces/create-internal-transaction.interface';
 
 @Injectable()
 export class InternalTransactionsService {

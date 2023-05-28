@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { InternalTransaction } from './entity/internal-transactions.entity';
+import { InternalTransaction } from './entities/internal-transactions.entity';
 import { InternalTransactionsService } from './internal-transactions.service';
 
 @Module({

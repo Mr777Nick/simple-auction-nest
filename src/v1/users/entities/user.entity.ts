@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 
-import { Base } from '../../../common/entity/base.entity';
-import { InternalTransaction } from '../../internal-transactions/entity/internal-transactions.entity';
+import { Base } from '../../../common/entities/base.entity';
+import { InternalTransaction } from '../../internal-transactions/entities/internal-transactions.entity';
 
 @Entity({ name: 'users' })
 export class User extends Base {

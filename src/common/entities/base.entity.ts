@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { DatabaseValue } from '../constant/database-value.constant';
+import { DatabaseValue } from '../constants/database-value.constant';
 
 @Entity()
 export class Base {

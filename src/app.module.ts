@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PostgresTypeOrmConfigService } from './common/database/postgres-typeorm-config-service';
-import { ResponseTransformationInterceptor } from './common/interceptor/transform-response.interceptor';
+import { PostgresTypeOrmConfigService } from './common/configs/postgres-typeorm-config-service';
+import { ResponseTransformationInterceptor } from './common/interceptors/transform-response.interceptor';
 import { SupabaseModule } from './common/supabase/supabase.module';
 import { AuthModule } from './v1/auth/auth.module';
 import { InternalTransactionsModule } from './v1/internal-transactions/internal-transactions.module';

@@ -7,7 +7,7 @@ import { UsersModule } from '../users/users.module';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { SupabaseStrategy } from './strategy/supabase.strategy';
+import { SupabaseStrategy } from './strategies/supabase.strategy';
 
 @Module({
   imports: [PassportModule, SupabaseModule, ConfigModule, UsersModule],
