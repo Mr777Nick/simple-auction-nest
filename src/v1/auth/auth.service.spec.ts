@@ -3,7 +3,7 @@ import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { MockType, repositoryMockFactory } from '../../../test/test-util';
+import { repositoryMockFactory } from '../../../test/test-util';
 import { SupabaseService } from '../../common/supabase/supabase.service';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
@@ -13,7 +13,6 @@ import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let repositoryUsersMock: MockType<User>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -56,7 +55,6 @@ describe('AuthService', () => {
     }).compile();
 
     service = module.get<AuthService>(AuthService);
-    repositoryUsersMock = module.get(getRepositoryToken(User));
   });
 
   it('should be defined', () => {

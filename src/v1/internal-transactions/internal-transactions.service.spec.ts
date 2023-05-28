@@ -1,14 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { MockType, repositoryMockFactory } from '../../../test/test-util';
+import { repositoryMockFactory } from '../../../test/test-util';
 
 import { InternalTransaction } from './entities/internal-transactions.entity';
 import { InternalTransactionsService } from './internal-transactions.service';
 
 describe('InternalTransactionsService', () => {
   let service: InternalTransactionsService;
-  let repositoryInternalTransactionsMock: MockType<InternalTransaction>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -23,9 +22,6 @@ describe('InternalTransactionsService', () => {
 
     service = module.get<InternalTransactionsService>(
       InternalTransactionsService,
-    );
-    repositoryInternalTransactionsMock = module.get(
-      getRepositoryToken(InternalTransaction),
     );
   });
 
