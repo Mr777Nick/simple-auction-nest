@@ -29,6 +29,8 @@ export class ResponseTransformationInterceptor<T>
             data:
               typeof data === 'string'
                 ? data
+                : Array.isArray(data) && data.length === 0
+                ? []
                 : Object.keys(rest).length === 0
                 ? null
                 : rest,
