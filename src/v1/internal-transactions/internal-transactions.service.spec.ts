@@ -3,7 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { repositoryMockFactory } from '../../../test/test-util';
 
-import { InternalTransaction } from './entities/internal-transactions.entity';
+import { InternalTransaction } from './entities/internal-transaction.entity';
 import { InternalTransactionsService } from './internal-transactions.service';
 
 describe('InternalTransactionsService', () => {

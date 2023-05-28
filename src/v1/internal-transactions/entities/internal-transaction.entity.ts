@@ -13,7 +13,7 @@ export class InternalTransaction extends Base {
   @Column({ nullable: false })
   type: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: 'float' })
   amount: number;
 
   @Column({ nullable: false })

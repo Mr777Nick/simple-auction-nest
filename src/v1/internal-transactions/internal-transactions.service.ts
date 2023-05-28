@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { InternalTransaction } from './entities/internal-transactions.entity';
+import { InternalTransaction } from './entities/internal-transaction.entity';
 import { ICreateInternalTransaction } from './interfaces/create-internal-transaction.interface';
 
 @Injectable()
