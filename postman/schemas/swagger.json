@@ -334,6 +334,54 @@
           }
         ]
       }
+    },
+    "/v1/item-bids": {
+      "post": {
+        "operationId": "ItemBidsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateItemBidDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "item-bids"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/item-bids/my": {
+      "get": {
+        "operationId": "ItemBidsController_findMine",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "item-bids"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
     }
   },
   "info": {
@@ -482,29 +530,20 @@
           "deletedBy"
         ]
       },
-      "User": {
+      "ItemBid": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
+          "user": {
+            "$ref": "#/components/schemas/User"
           },
-          "name": {
-            "type": "string"
+          "item": {
+            "$ref": "#/components/schemas/Item"
           },
-          "balance": {
+          "price": {
             "type": "number"
           },
-          "internalTransactions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/InternalTransaction"
-            }
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/InternalTransaction"
-            }
+          "id": {
+            "type": "string"
           },
           "createdAt": {
             "format": "date-time",
@@ -529,11 +568,10 @@
           }
         },
         "required": [
+          "user",
+          "item",
+          "price",
           "id",
-          "name",
-          "balance",
-          "internalTransactions",
-          "items",
           "createdAt",
           "createdBy",
           "updatedAt",
@@ -563,6 +601,12 @@
           },
           "soldPrice": {
             "type": "number"
+          },
+          "itemBids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemBid"
+            }
           },
           "id": {
             "type": "string"
@@ -596,7 +640,75 @@
           "startPrice",
           "endedAt",
           "soldPrice",
+          "itemBids",
           "id",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "deletedAt",
+          "deletedBy"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "balance": {
+            "type": "number"
+          },
+          "internalTransactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InternalTransaction"
+            }
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Item"
+            }
+          },
+          "itemBids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemBid"
+            }
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          },
+          "deletedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deletedBy": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "balance",
+          "internalTransactions",
+          "items",
+          "itemBids",
           "createdAt",
           "createdBy",
           "updatedAt",
@@ -620,6 +732,22 @@
             "type": "string"
           }
         }
+      },
+      "CreateItemBidDto": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "itemId",
+          "price"
+        ]
       }
     }
   },

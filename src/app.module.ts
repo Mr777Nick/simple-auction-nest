@@ -10,6 +10,7 @@ import { ResponseTransformationInterceptor } from './common/interceptors/transfo
 import { SupabaseModule } from './common/supabase/supabase.module';
 import { AuthModule } from './v1/auth/auth.module';
 import { InternalTransactionsModule } from './v1/internal-transactions/internal-transactions.module';
+import { ItemBidsModule } from './v1/item-bids/item-bids.module';
 import { ItemsModule } from './v1/items/items.module';
 import { UsersModule } from './v1/users/users.module';
 
@@ -28,6 +29,7 @@ import { UsersModule } from './v1/users/users.module';
     UsersModule,
     InternalTransactionsModule,
     ItemsModule,
+    ItemBidsModule,
   ],
   controllers: [AppController],
   providers: [

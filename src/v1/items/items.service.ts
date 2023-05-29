@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Repository } from 'typeorm';
+import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
+
+import { findObjectWithHighestValue } from '../../common/utils/util-functions';
 
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
@@ -35,20 +37,33 @@ export class ItemsService {
 
   async findAll(options?: FindManyOptions<Item>) {
     try {
-      return await this.itemsRepository.find({
+      let items = await this.itemsRepository.find({
         ...options,
-        relations: { user: true },
+        relations: { user: true, itemBids: true, ...options?.relations },
       });
+
+      items = items.map((item) => {
+        return {
+          ...item,
+          currentPrice:
+            item.itemBids && item.itemBids.length > 0
+              ? findObjectWithHighestValue(item.itemBids, 'price').price
+              : item.startPrice,
+        };
+      });
+
+      return items;
     } catch (error) {
       throw error;
     }
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, options?: FindOneOptions<Item>) {
     try {
       return await this.itemsRepository.findOne({
-        where: { id },
-        relations: { user: true },
+        ...options,
+        where: { id, ...options?.where },
+        relations: { user: true, ...options?.relations },
       });
     } catch (error) {
       throw error;

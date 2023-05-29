@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 import { Base } from '../../../common/entities/base.entity';
+import { ItemBid } from '../../item-bids/entities/item-bid.entity';
 import { User } from '../../users/entities/user.entity';
 
 @Entity({ name: 'items' })
@@ -24,4 +25,7 @@ export class Item extends Base {
 
   @Column({ nullable: true, type: 'float' })
   soldPrice: number;
+
+  @OneToMany(() => ItemBid, (itemBid) => itemBid.item)
+  itemBids: ItemBid[];
 }
