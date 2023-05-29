@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, MoreThanOrEqual, Repository } from 'typeorm';
 
-import { findObjectWithHighestValue } from '../../common/utils/util-functions';
 import { InternalTransactionType } from '../internal-transactions/enums/internal-transaction.enum';
 import { ItemStatus } from '../items/enums/items.enum';
 import { ItemsService } from '../items/items.service';
@@ -59,12 +58,7 @@ export class ItemBidsService {
         throw new Error('Item not found or not available for auction');
       }
 
-      if (
-        price <=
-        (item.itemBids.length > 0
-          ? findObjectWithHighestValue(item.itemBids, 'price').price
-          : item.startPrice)
-      ) {
+      if (price <= item.currentPrice) {
         throw new Error('Bid price must be higher than the current price');
       }
 
@@ -88,6 +82,8 @@ export class ItemBidsService {
         highestBid.price,
         InternalTransactionType.ITEM_BID_REFUND,
       );
+
+      await this.itemsService.updateCurrentPrice(item.id, price);
 
       const itemBid = await this.createOne(userId, createItemBidDto);
 

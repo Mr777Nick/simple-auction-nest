@@ -24,7 +24,10 @@ export class Item extends Base {
   endedAt: Date;
 
   @Column({ nullable: true, type: 'float' })
-  soldPrice: number;
+  currentPrice?: number;
+
+  @Column({ nullable: true, type: 'float' })
+  soldPrice?: number;
 
   @OneToMany(() => ItemBid, (itemBid) => itemBid.item)
   itemBids: ItemBid[];
