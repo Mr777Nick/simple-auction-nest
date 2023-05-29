@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
+import {
+  FindManyOptions,
+  FindOneOptions,
+  LessThanOrEqual,
+  Repository,
+} from 'typeorm';
 
 import { DatabaseValue } from '../../common/constants/database-value.constant';
 
@@ -137,5 +143,28 @@ export class ItemsService {
     } catch (error) {
       throw error;
     }
+  }
+
+  @Cron(CronExpression.EVERY_HOUR)
+  async markItemsAsSold() {
+    try {
+      const newlyFinishedItems = await this.findAll({
+        where: {
+          status: ItemStatus.ACTIVE,
+          endedAt: LessThanOrEqual(new Date()),
+          soldPrice: null,
+        },
+      });
+
+      newlyFinishedItems.forEach(async (item) => {
+        if (item.itemBids.length > 0) {
+          await this.itemsRepository.update(item.id, {
+            soldPrice: item.currentPrice,
+            status: ItemStatus.SOLD,
+            updatedBy: DatabaseValue.SYSTEM,
+          });
+        }
+      });
+    } catch (error) {}
   }
 }

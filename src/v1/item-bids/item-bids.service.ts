@@ -63,24 +63,24 @@ export class ItemBidsService {
       }
 
       const sortedBids = item.itemBids.sort((a, b) => b.price - a.price);
-      const highestBid = sortedBids[0];
-
       if (sortedBids.length > 0) {
+        const highestBid = sortedBids[0];
+
         if (highestBid.user.id === userId) {
           throw new Error('You are the highest bidder');
         }
+
+        await this.usersService.addBalance(
+          highestBid.user.id,
+          highestBid.price,
+          InternalTransactionType.ITEM_BID_REFUND,
+        );
       }
 
       await this.usersService.deductBalance(
         userId,
         price,
         InternalTransactionType.ITEM_BID,
-      );
-
-      await this.usersService.addBalance(
-        highestBid.user.id,
-        highestBid.price,
-        InternalTransactionType.ITEM_BID_REFUND,
       );
 
       await this.itemsService.updateCurrentPrice(item.id, price);
