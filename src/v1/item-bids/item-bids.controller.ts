@@ -10,6 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { AuthUser } from '@supabase/supabase-js';
 
 import { SupabaseAuthGuard } from '../auth/guards/supabase-auth.guard';
@@ -24,6 +25,8 @@ export class ItemBidsController {
 
   @ApiBearerAuth()
   @UseGuards(SupabaseAuthGuard)
+  @UseGuards(ThrottlerGuard)
+  @Throttle(1, 5)
   @Post()
   async create(
     @Request() req: { user: AuthUser },
