@@ -10,6 +10,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Request,
   SerializeOptions,
   UseGuards,
@@ -19,10 +20,16 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthUser } from '@supabase/supabase-js';
 import { LessThan, MoreThanOrEqual } from 'typeorm';
 
+import { ApiPaginatedResponse } from '../../common/decorators/api-paginated-response.decorator';
+import { PageMetaDto } from '../../common/dto/page-meta.dto';
+import { PageOptionsDto } from '../../common/dto/page-options.dto';
+import { PageDto } from '../../common/dto/page.dto';
+import { Order } from '../../common/enums/order.enum';
 import { SupabaseAuthGuard } from '../auth/guards/supabase-auth.guard';
 
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
+import { Item } from './entities/item.entity';
 import { ItemStatus } from './enums/items.enum';
 import { ItemsService } from './items.service';
 
@@ -47,62 +54,99 @@ export class ItemsController {
   }
 
   @ApiBearerAuth()
+  @ApiPaginatedResponse(Item)
   @UseGuards(SupabaseAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({ excludePrefixes: ['balance'] })
   @Get('ongoing')
-  async findActiveItems() {
+  async findActiveItems(
+    @Query() pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<Item>> {
     try {
-      const items = await this.itemsService.findAll({
+      const { order, take, skip } = pageOptionsDto;
+
+      const result = await this.itemsService.findAll({
         where: {
           status: ItemStatus.ACTIVE,
           soldPrice: null,
           endedAt: MoreThanOrEqual(new Date()),
         },
-        order: { endedAt: 'DESC' },
+        order: { endedAt: order, createdAt: Order.DESC },
+        skip,
+        take,
       });
 
-      return items;
+      const pageMetaDto = new PageMetaDto({
+        itemCount: result.itemsCount,
+        pageOptionsDto,
+      });
+
+      return new PageDto(result.items, pageMetaDto);
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
   }
 
   @ApiBearerAuth()
+  @ApiPaginatedResponse(Item)
   @UseGuards(SupabaseAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({ excludePrefixes: ['balance'] })
   @Get('completed')
-  async findInactiveItems() {
+  async findInactiveItems(
+    @Query() pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<Item>> {
     try {
-      const items = await this.itemsService.findAll({
+      const { order, take, skip } = pageOptionsDto;
+
+      const result = await this.itemsService.findAll({
         where: {
           endedAt: LessThan(new Date()),
         },
-        order: { endedAt: 'DESC' },
+        order: { endedAt: order, createdAt: Order.DESC },
+        skip,
+        take,
       });
 
-      return items;
+      const pageMetaDto = new PageMetaDto({
+        itemCount: result.itemsCount,
+        pageOptionsDto,
+      });
+
+      return new PageDto(result.items, pageMetaDto);
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
   }
 
   @ApiBearerAuth()
+  @ApiPaginatedResponse(Item)
   @UseGuards(SupabaseAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({ excludePrefixes: ['balance'] })
   @Get('my')
-  async findMine(@Request() req: { user: AuthUser }) {
+  async findMine(
+    @Request() req: { user: AuthUser },
+    @Query() pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<Item>> {
     try {
-      const items = await this.itemsService.findAll({
+      const { order, take, skip } = pageOptionsDto;
+
+      const result = await this.itemsService.findAll({
         where: {
           user: { id: req.user.id },
         },
-        order: { endedAt: 'DESC' },
+        order: { endedAt: order, createdAt: Order.DESC },
+        skip,
+        take,
       });
 
-      return items;
+      const pageMetaDto = new PageMetaDto({
+        itemCount: result.itemsCount,
+        pageOptionsDto,
+      });
+
+      return new PageDto(result.items, pageMetaDto);
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }

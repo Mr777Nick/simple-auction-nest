@@ -44,12 +44,15 @@ export class ItemsService {
 
   async findAll(options?: FindManyOptions<Item>) {
     try {
-      const items = await this.itemsRepository.find({
+      const query = {
         ...options,
         relations: { user: true, itemBids: true, ...options?.relations },
-      });
+      };
 
-      return items;
+      const items = await this.itemsRepository.find(query);
+      const itemsCount = await this.itemsRepository.count(query);
+
+      return { items, itemsCount };
     } catch (error) {
       throw error;
     }
@@ -156,7 +159,7 @@ export class ItemsService {
         },
       });
 
-      newlyFinishedItems.forEach(async (item) => {
+      newlyFinishedItems.items.forEach(async (item) => {
         if (item.itemBids.length > 0) {
           await this.itemsRepository.update(item.id, {
             soldPrice: item.currentPrice,

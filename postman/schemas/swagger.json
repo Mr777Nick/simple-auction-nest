@@ -154,17 +154,63 @@
     "/v1/items/ongoing": {
       "get": {
         "operationId": "ItemsController_findActiveItems",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "order",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "DESC",
+              "enum": [
+                "ASC",
+                "DESC"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "take",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Successfully received model list",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Item"
-                  }
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageDto"
+                    },
+                    {
+                      "properties": {
+                        "result": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Item"
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -183,17 +229,63 @@
     "/v1/items/completed": {
       "get": {
         "operationId": "ItemsController_findInactiveItems",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "order",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "DESC",
+              "enum": [
+                "ASC",
+                "DESC"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "take",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Successfully received model list",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Item"
-                  }
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageDto"
+                    },
+                    {
+                      "properties": {
+                        "result": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Item"
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -212,17 +304,63 @@
     "/v1/items/my": {
       "get": {
         "operationId": "ItemsController_findMine",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "order",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "DESC",
+              "enum": [
+                "ASC",
+                "DESC"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "take",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Successfully received model list",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Item"
-                  }
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PageDto"
+                    },
+                    {
+                      "properties": {
+                        "result": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Item"
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -484,6 +622,55 @@
           "name",
           "startPrice",
           "endedAt"
+        ]
+      },
+      "PageMetaDto": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number"
+          },
+          "take": {
+            "type": "number"
+          },
+          "itemCount": {
+            "type": "number"
+          },
+          "pageCount": {
+            "type": "number"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "page",
+          "take",
+          "itemCount",
+          "pageCount",
+          "hasPreviousPage",
+          "hasNextPage"
+        ]
+      },
+      "PageDto": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PageMetaDto"
+          }
+        },
+        "required": [
+          "result",
+          "meta"
         ]
       },
       "InternalTransaction": {
