@@ -12,6 +12,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthUser } from '@supabase/supabase-js';
 
 import { SupabaseAuthGuard } from '../auth/guards/supabase-auth.guard';
+import { InternalTransactionType } from '../internal-transactions/enums/internal-transaction.enum';
 
 import { TopUpBalanceDto } from './dto/top-up-balance.dto';
 import { UsersService } from './users.service';
@@ -42,7 +43,11 @@ export class UsersController {
     @Body() topUpBalanceDto: TopUpBalanceDto,
   ) {
     try {
-      await this.usersService.topUpBalance(req.user.id, topUpBalanceDto.amount);
+      await this.usersService.addBalance(
+        req.user.id,
+        topUpBalanceDto.amount,
+        InternalTransactionType.DEPOSIT,
+      );
       return { message: 'Balance topped up' };
     } catch (error) {
       throw new InternalServerErrorException(error.message);

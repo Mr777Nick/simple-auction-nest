@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, MoreThanOrEqual, Repository } from 'typeorm';
 
 import { findObjectWithHighestValue } from '../../common/utils/util-functions';
+import { InternalTransactionType } from '../internal-transactions/enums/internal-transaction.enum';
 import { ItemStatus } from '../items/enums/items.enum';
 import { ItemsService } from '../items/items.service';
 import { UsersService } from '../users/users.service';
@@ -67,19 +68,28 @@ export class ItemBidsService {
         throw new Error('Bid price must be higher than the current price');
       }
 
-      const bidsByUser = item.itemBids
-        .filter((itemBid) => itemBid.user.id === userId)
-        .sort((a, b) => b.price - a.price);
+      const sortedBids = item.itemBids.sort((a, b) => b.price - a.price);
+      const highestBid = sortedBids[0];
 
-      if (bidsByUser.length > 0) {
-        const lastBid = bidsByUser[0];
-
-        if (lastBid.user.id === userId) {
+      if (sortedBids.length > 0) {
+        if (highestBid.user.id === userId) {
           throw new Error('You are the highest bidder');
         }
       }
 
-      const itemBid = this.createOne(userId, createItemBidDto);
+      await this.usersService.deductBalance(
+        userId,
+        price,
+        InternalTransactionType.ITEM_BID,
+      );
+
+      await this.usersService.addBalance(
+        highestBid.user.id,
+        highestBid.price,
+        InternalTransactionType.ITEM_BID_REFUND,
+      );
+
+      const itemBid = await this.createOne(userId, createItemBidDto);
 
       return itemBid;
     } catch (error) {

@@ -53,7 +53,11 @@ export class UsersService {
     }
   }
 
-  async topUpBalance(userId: string, amount: number) {
+  async addBalance(
+    userId: string,
+    amount: number,
+    transactionType: InternalTransactionType,
+  ) {
     try {
       const user = await this.findOne(userId);
 
@@ -67,7 +71,36 @@ export class UsersService {
 
       await this.internalTransactionsService.createOne({
         userId,
-        type: InternalTransactionType.DEPOSIT,
+        type: transactionType,
+        amount,
+        status: InternalTransactionStatus.COMPLETED,
+      });
+
+      return updatedUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deductBalance(
+    userId: string,
+    amount: number,
+    transactionType: InternalTransactionType,
+  ) {
+    try {
+      const user = await this.findOne(userId);
+
+      if (!user) throw 'User not found';
+
+      const updatedUser = this.usersRepository.merge(user, {
+        balance: user.balance - amount,
+      });
+
+      await this.usersRepository.save(updatedUser);
+
+      await this.internalTransactionsService.createOne({
+        userId,
+        type: transactionType,
         amount,
         status: InternalTransactionStatus.COMPLETED,
       });
