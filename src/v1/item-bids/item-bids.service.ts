@@ -95,11 +95,14 @@ export class ItemBidsService {
 
   async findAll(options?: FindManyOptions<ItemBid>) {
     try {
-      const itemBids = await this.itemBidsRepository.find({
+      const query = {
         ...options,
-      });
+      };
 
-      return itemBids;
+      const itemBids = await this.itemBidsRepository.find(query);
+      const itemBidsCount = await this.itemBidsRepository.count(query);
+
+      return { itemBids, itemBidsCount };
     } catch (error) {
       throw error;
     }

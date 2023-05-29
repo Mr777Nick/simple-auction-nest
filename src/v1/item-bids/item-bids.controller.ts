@@ -7,6 +7,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
   Post,
+  Query,
   Request,
   UseGuards,
   UseInterceptors,
@@ -15,9 +16,14 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { AuthUser } from '@supabase/supabase-js';
 
+import { ApiPaginatedResponse } from '../../common/decorators/api-paginated-response.decorator';
+import { PageMetaDto } from '../../common/dto/page-meta.dto';
+import { PageOptionsDto } from '../../common/dto/page-options.dto';
+import { PageDto } from '../../common/dto/page.dto';
 import { SupabaseAuthGuard } from '../auth/guards/supabase-auth.guard';
 
 import { CreateItemBidDto } from './dto/create-item-bid.dto';
+import { ItemBid } from './entities/item-bid.entity';
 import { ItemBidLimitGuard } from './guards/item-bid-limit.guard';
 import { ItemBidsService } from './item-bids.service';
 
@@ -56,20 +62,33 @@ export class ItemBidsController {
   }
 
   @ApiBearerAuth()
+  @ApiPaginatedResponse(ItemBid)
   @UseGuards(SupabaseAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('my')
-  async findMine(@Request() req: { user: AuthUser }) {
+  async findMine(
+    @Request() req: { user: AuthUser },
+    @Query() pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<ItemBid>> {
     try {
-      const itemBids = await this.itemBidsService.findAll({
+      const { order, take, skip } = pageOptionsDto;
+
+      const result = await this.itemBidsService.findAll({
         where: {
           user: { id: req.user.id },
         },
-        order: { createdAt: 'DESC' },
         relations: { item: true },
+        order: { createdAt: order },
+        skip,
+        take,
       });
 
-      return itemBids;
+      const pageMetaDto = new PageMetaDto({
+        itemCount: result.itemBidsCount,
+        pageOptionsDto,
+      });
+
+      return new PageDto(result.itemBids, pageMetaDto);
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
