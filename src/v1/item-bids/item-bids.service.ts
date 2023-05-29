@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MoreThanOrEqual, Repository } from 'typeorm';
+import { FindManyOptions, MoreThanOrEqual, Repository } from 'typeorm';
 
 import { findObjectWithHighestValue } from '../../common/utils/util-functions';
 import { ItemStatus } from '../items/enums/items.enum';
@@ -82,6 +82,18 @@ export class ItemBidsService {
       const itemBid = this.createOne(userId, createItemBidDto);
 
       return itemBid;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findAll(options?: FindManyOptions<ItemBid>) {
+    try {
+      const itemBids = await this.itemBidsRepository.find({
+        ...options,
+      });
+
+      return itemBids;
     } catch (error) {
       throw error;
     }

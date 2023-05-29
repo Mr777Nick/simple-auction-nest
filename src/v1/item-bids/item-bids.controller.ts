@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   InternalServerErrorException,
@@ -8,6 +9,7 @@ import {
   Post,
   Request,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
@@ -54,9 +56,19 @@ export class ItemBidsController {
 
   @ApiBearerAuth()
   @UseGuards(SupabaseAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get('my')
   async findMine(@Request() req: { user: AuthUser }) {
     try {
+      const itemBids = await this.itemBidsService.findAll({
+        where: {
+          user: { id: req.user.id },
+        },
+        order: { createdAt: 'DESC' },
+        relations: { item: true },
+      });
+
+      return itemBids;
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
