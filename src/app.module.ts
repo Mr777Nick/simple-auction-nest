@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { dataSourceOptions } from '../db/data-source';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PostgresTypeOrmConfigService } from './common/configs/postgres-typeorm-config-service';
 import { ResponseTransformationInterceptor } from './common/interceptors/transform-response.interceptor';
 import { SupabaseModule } from './common/supabase/supabase.module';
 import { AuthModule } from './v1/auth/auth.module';
@@ -23,11 +24,7 @@ import { UsersModule } from './v1/users/users.module';
     ConfigModule.forRoot({
       envFilePath: ['.env.development.local', '.env.development'],
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useClass: PostgresTypeOrmConfigService,
-    }),
+    TypeOrmModule.forRoot(dataSourceOptions),
     UsersModule,
     InternalTransactionsModule,
     ItemsModule,

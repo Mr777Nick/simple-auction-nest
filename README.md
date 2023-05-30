@@ -46,6 +46,7 @@ For more settings, configurations and complete setup, go here: [Nest JS Document
 
 - `npm run start` to start local development.
 - `npm run start:dev` to start local development in watch mode.
+- `npm run start:debug` to start local development in debug mode.
 - `npm run deploy:prod` to start in production mode.
 
 ## Usage
@@ -62,6 +63,35 @@ For more settings, configurations and complete setup, go here: [Nest JS Document
 ### To Deploy to Prod Environment
 
 **TBD**
+
+### To Commit using Commitizen CLI
+
+1. Run `npm run commit`.
+2. Follow along the guided wizard to create the commit.
+3. Wait for the git hooks to finish doing Eslint, Prettier, and test.
+
+### To Generate DB Migration from Entities
+
+1. Make sure the DB engine is running and available to connect.
+2. Configure .env file with the DB configuration.
+3. Run `npm run migration:generate db/migrations/<MigrationName>`.
+4. It will generate migration file based on the changes from the DB state and the current state of all files containing `*.entity.ts` name.
+5. Commit the generated migration file(s).
+
+### To Run DB Migration
+
+1. Make sure the DB engine is running and available to connect.
+2. Configure .env file with the DB configuration.
+3. Run `npm run migration:run`.
+4. It will check the migration files with the current state of the DB, then do any unapplied migrations if possible.
+
+### To Revert DB Migration
+
+1. Make sure the DB engine is running and available to connect.
+2. Configure .env file with the DB configuration.
+3. Run `npm run migration:revert`.
+4. It will check the migration files with the current state of the DB, then do revert of one last migration if possible.
+5. Repeat the command if migration revert is still needed.
 
 ## Depending Services
 
