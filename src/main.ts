@@ -1,22 +1,35 @@
 import * as fs from 'fs';
 
 import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as Sentry from '@sentry/node';
 
 import { AppModule } from './app.module';
+import { SentryInterceptor } from './common/interceptors/sentry.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const V1_PREFIX = '1';
 
+  Sentry.init({
+    dsn: app.get(ConfigService).get('SENTRY_DSN'),
+    environment: app.get(ConfigService).get('NODE_ENV') ?? 'production',
+  });
+
   app
     .enableVersioning({
       type: VersioningType.URI,
       defaultVersion: V1_PREFIX,
     })
-    .useGlobalPipes(new ValidationPipe({ transform: true }));
+    .useGlobalPipes(new ValidationPipe({ transform: true }))
+    .useGlobalInterceptors(new SentryInterceptor());
+
+  Sentry.init({
+    dsn: app.get(ConfigService).get('SENTRY_DSN'),
+  });
 
   const v1Config = new DocumentBuilder()
     .setTitle('Simple Auction API')
