@@ -4,3 +4,6 @@
 
 # swagger docs
 /postman/schemas/swagger.json
+
+# test coverage results
+/coverage
