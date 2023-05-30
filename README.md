@@ -52,11 +52,12 @@ For more settings, configurations and complete setup, go here: [Nest JS Document
 
 ### To Run Locally
 
-1. Create .env.development.local file, then set up the .env with all the required information of the project prerequisites (Supabase Auth, Supabase Postgres Connection, and Sentry DSN).
-2. Install [Docker](https://www.docker.com/), run `docker compose --env-file ./.env.development.local up` to start local Postgres database.
-3. Run `npm run start` or `npm run start:dev` to start local development.
-4. Server will be running on `localhost:3000`.
-5. To check API documentation, go to `localhost:3000\v1\docs`.
+1. Create `.env.development.local` file, then set up the .env with all the required information of the project prerequisites (Supabase Auth, Supabase Postgres Connection, and Sentry DSN).
+2. Add `NODE_ENV=development` to the .env file to turning on option for ORM to automatically creating DB tables without needing to run migration.
+3. Install [Docker](https://www.docker.com/), run `docker compose --env-file ./.env.development.local up` to start local Postgres database.
+4. Run `npm run start` or `npm run start:dev` to start local development.
+5. Server will be running on `localhost:3000`.
+6. To check API documentation, go to `localhost:3000\v1\docs`.
 
 ### To Deploy to Prod Environment
 
