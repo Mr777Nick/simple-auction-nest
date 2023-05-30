@@ -24,7 +24,12 @@ import { UsersModule } from './v1/users/users.module';
     ConfigModule.forRoot({
       envFilePath: ['.env.development.local', '.env.development'],
     }),
-    TypeOrmModule.forRoot(dataSourceOptions),
+    TypeOrmModule.forRoot({
+      ...dataSourceOptions,
+      migrations: [],
+      entities: [],
+      autoLoadEntities: true,
+    }),
     UsersModule,
     InternalTransactionsModule,
     ItemsModule,
