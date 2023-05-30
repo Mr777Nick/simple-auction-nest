@@ -4,6 +4,7 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { RewriteFrames } from '@sentry/integrations';
 import * as Sentry from '@sentry/node';
 
 import { AppModule } from './app.module';
@@ -17,6 +18,11 @@ async function bootstrap() {
   Sentry.init({
     dsn: app.get(ConfigService).get('SENTRY_DSN'),
     environment: app.get(ConfigService).get('NODE_ENV') ?? 'production',
+    integrations: [
+      new RewriteFrames({
+        root: process.cwd(),
+      }),
+    ],
   });
 
   app
