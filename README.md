@@ -17,7 +17,7 @@ For more settings, configurations and complete setup, go here: [Nest JS Document
 
 ## Tech Stacks and Features
 
-- [Supabase Postgres Database](https://supabase.com/database), for databases
+- [Supabase Postgres Database](https://supabase.com/database), for databases ([ERD](https://lucid.app/lucidchart/de502dff-3f1f-414e-aac9-fe0992d3d019/edit?viewport_loc=351%2C-76%2C1023%2C1224%2C0_0&invitationId=inv_4603624c-56cd-4182-847d-e7931ba07fef) used)
 - [Supabase Auth](https://supabase.com/auth), for authentication services
 - [Sentry](https://sentry.io/), for error reporting
 - [Docker](https://www.docker.com/), for DB local development
