@@ -166,6 +166,11 @@ export class ItemsService {
             status: ItemStatus.SOLD,
             updatedBy: DatabaseValue.SYSTEM,
           });
+        } else {
+          await this.itemsRepository.update(item.id, {
+            status: ItemStatus.INACTIVE,
+            updatedBy: DatabaseValue.SYSTEM,
+          });
         }
       });
     } catch (error) {}
