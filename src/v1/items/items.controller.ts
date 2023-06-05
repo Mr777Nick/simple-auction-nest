@@ -60,6 +60,7 @@ export class ItemsController {
   @SerializeOptions({ excludePrefixes: ['balance'] })
   @Get('ongoing')
   async findActiveItems(
+    @Request() req: { user: AuthUser },
     @Query() pageOptionsDto: PageOptionsDto,
   ): Promise<PageDto<Item>> {
     try {
@@ -81,7 +82,15 @@ export class ItemsController {
         pageOptionsDto,
       });
 
-      return new PageDto(result.items, pageMetaDto);
+      const items = result.items.map((item) => {
+        if (item.user.id === req.user.id) {
+          return { ...item, isMine: true };
+        }
+
+        return item;
+      });
+
+      return new PageDto(items, pageMetaDto);
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
