@@ -10,17 +10,17 @@
 
 The backend that is being used for the Simple Auction Frontend. Made using [Nest JS](https://nestjs.com) framework.
 
-- Dev: **Not deployed yet**
-- Prod: **Not deployed yet**
+- Prod: https://d36q0ar0s7mew.cloudfront.net
 
 For more settings, configurations and complete setup, go here: [Nest JS Documentation](https://docs.nestjs.com/)
 
 ## Tech Stacks and Features
 
+- [AWS CodeBuild](https://aws.amazon.com/codebuild/), [AWS CodePipeline](https://aws.amazon.com/codepipeline/), [AWS ECS](https://aws.amazon.com/ecs/), [AWS ECR](https://aws.amazon.com/ecr/), and [AWS CloudFront](https://aws.amazon.com/cloudfront/), for CI/CD, hosting, and auto scaling
 - [Supabase Postgres Database](https://supabase.com/database), for databases ([ERD](https://lucid.app/lucidchart/de502dff-3f1f-414e-aac9-fe0992d3d019/edit?viewport_loc=351%2C-76%2C1023%2C1224%2C0_0&invitationId=inv_4603624c-56cd-4182-847d-e7931ba07fef) used)
 - [Supabase Auth](https://supabase.com/auth), for authentication services
 - [Sentry](https://sentry.io/), for error reporting
-- [Docker](https://www.docker.com/), for DB local development
+- [Docker](https://www.docker.com/), for DB local development and deployment
 - [Eslint](https://eslint.org/) and [Prettier](https://prettier.io/), for code standarization
 - [Husky](https://typicode.github.io/husky/), for git hooks
 - [Commitizen](https://github.com/commitizen/cz-cli), for commit messages standarization
@@ -62,7 +62,15 @@ For more settings, configurations and complete setup, go here: [Nest JS Document
 
 ### To Deploy to Prod Environment
 
-**TBD**
+1. Create AWS ECR to store docker images for later.
+2. Create AWS CodeBuild project, connect AWS to GitHub, then select this repository.
+3. Create AWS ECS clusters, task, and service for the project. Select the previous CodeBuild project when asked.
+4. Create AWS Load Balancer target group, for later to be selected as CodePipeline deploy target.
+5. Create AWS CodePipeline project. Add Source of the Github repository and the branch name. Add Build of the previous CodeBuild project. Add Amazon ECS as deploy provider with the created clusters and services.
+6. Create AWS CloudFront with the Load Balancer as the source. Use the CloudFront url directly or as proxy of the domain name of the server.
+7. Any newer commits to the main branch of the repository will automatically trigger the deployment.
+
+Note: See this link by [Modus Create](https://moduscreate.com/blog/deploy-a-nestjs-application-to-amazon-ecs-using-codepipeline/) for detailed instructions.
 
 ### To Commit using Commitizen CLI
 
