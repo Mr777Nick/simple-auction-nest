@@ -9,6 +9,8 @@ import {
 } from 'typeorm';
 
 import { DatabaseValue } from '../../common/constants/database-value.constant';
+import { InternalTransactionType } from '../internal-transactions/enums/internal-transaction.enum';
+import { UsersService } from '../users/users.service';
 
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
@@ -20,6 +22,7 @@ export class ItemsService {
   constructor(
     @InjectRepository(Item)
     private itemsRepository: Repository<Item>,
+    private usersService: UsersService,
   ) {}
 
   async createOne(userId: string, createItemDto: CreateItemDto) {
@@ -157,15 +160,23 @@ export class ItemsService {
           endedAt: LessThanOrEqual(new Date()),
           soldPrice: null,
         },
+        relations: { user: true, itemBids: true },
       });
 
       newlyFinishedItems.items.forEach(async (item) => {
         if (item.itemBids.length > 0) {
-          await this.itemsRepository.update(item.id, {
+          const soldItem = await this.itemsRepository.save({
+            ...item,
             soldPrice: item.currentPrice,
             status: ItemStatus.SOLD,
             updatedBy: DatabaseValue.SYSTEM,
           });
+
+          await this.usersService.addBalance(
+            item.user.id,
+            soldItem.soldPrice,
+            InternalTransactionType.ITEM_SOLD,
+          );
         } else {
           await this.itemsRepository.update(item.id, {
             status: ItemStatus.INACTIVE,
