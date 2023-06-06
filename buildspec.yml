@@ -18,7 +18,7 @@ phases:
      - IMAGE_TAG=${COMMIT_HASH:=latest}
  build:
    commands:
-     - docker build -t $REPOSITORY_URI:latest -f Dockerfile .
+     - docker build --build-arg SUPABASE_URL=${SUPABASE_URL} --build-arg SUPABASE_KEY=${SUPABASE_KEY} --build-arg POSTGRES_HOST=${POSTGRES_HOST} --build-arg POSTGRES_DATABASE=${POSTGRES_DATABASE} --build-arg POSTGRES_PORT=${POSTGRES_PORT} --build-arg POSTGRES_USER=${POSTGRES_USER} --build-arg POSTGRES_PASSWORD=${POSTGRES_PASSWORD} --build-arg SENTRY_DSN=${SENTRY_DSN} -t $REPOSITORY_URI:latest -f Dockerfile .
      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
  post_build:
    commands:
