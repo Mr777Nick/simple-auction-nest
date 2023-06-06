@@ -4,8 +4,6 @@ FROM node:18
 # Create app directory
 WORKDIR /usr/src/app
 
-RUN echo ${SUPABASE_URL}
-
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 

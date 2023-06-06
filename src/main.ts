@@ -14,9 +14,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const V1_PREFIX = '1';
-  console.log(process.env.NODE_ENV);
-  console.log(process.env.SENTRY_DSN);
-  console.log(process.env.SUPABASE_URL);
 
   Sentry.init({
     dsn: app.get(ConfigService).get('SENTRY_DSN'),
