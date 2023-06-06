@@ -1,4 +1,4 @@
-FROM node:12.22-alpine
+FROM node:18
 WORKDIR /app
 COPY package.json package-lock.json /app/
 RUN npm install
