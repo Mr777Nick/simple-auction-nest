@@ -2,7 +2,7 @@ version: 0.2
 phases:
  pre_build:
    commands:
-     - aws ecr get-login-password --region REGION | docker login --username AWS --password-stdin 651965845446.dkr.ecr.ap-southeast-1.amazonaws.com
+     - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 651965845446.dkr.ecr.ap-southeast-1.amazonaws.com
      - REPOSITORY_URI=651965845446.dkr.ecr.ap-southeast-1.amazonaws.com/simple-auction-nest
      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
      - IMAGE_TAG=${COMMIT_HASH:=latest}
