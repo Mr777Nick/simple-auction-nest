@@ -32,7 +32,7 @@ async function bootstrap() {
     })
     .useGlobalPipes(new ValidationPipe({ transform: true }))
     .useGlobalInterceptors(new SentryInterceptor())
-    .enableCors();
+    .enableCors({ origin: true });
 
   Sentry.init({
     dsn: app.get(ConfigService).get('SENTRY_DSN'),
