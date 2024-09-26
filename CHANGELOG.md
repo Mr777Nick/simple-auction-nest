@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.0.0](https://github.com/Mr777Nick/simple-auction-nest/compare/v1.0.0...v2.0.0) (2024-09-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* Because the type of graphql is changed
+
+### Features
+
+* remove test file ([2e75563](https://github.com/Mr777Nick/simple-auction-nest/commit/2e75563f94bae51eb21d45e6f660def617245e55))
+
+
+### Bug Fixes
+
+* fix something ([6fa0046](https://github.com/Mr777Nick/simple-auction-nest/commit/6fa0046928d2969020e9e17bb1b1504847f57bfc))
+* fix something ([#3](https://github.com/Mr777Nick/simple-auction-nest/issues/3)) ([7ddefa3](https://github.com/Mr777Nick/simple-auction-nest/commit/7ddefa361b4b08cfb0c49018c57ccdc5f3f36688))
+* readd test file ([fb5fe50](https://github.com/Mr777Nick/simple-auction-nest/commit/fb5fe504fd4f75cde5201b295c52b4815c455827))
+
 ## 1.0.0 (2024-09-25)
 
 
